@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.openclassrooms.entrevoisins.R;
 
@@ -46,8 +47,10 @@ public class ListNeighbourActivity extends AppCompatActivity {
         AddNeighbourActivity.navigate(this);
     }
 
-    public void sendMessage(View view){
+    public void displayNeighbour(View view){
         Intent intent = new Intent(this, DisplayNeighbourActivity.class);
+        TextView displayName = (TextView)view;
+        intent.putExtra("keyName", displayName.getText());
         startActivity(intent);
     }
 }
