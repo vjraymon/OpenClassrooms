@@ -3,6 +3,7 @@ package com.openclassrooms.entrevoisins.utils;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewAssertion;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import org.hamcrest.Matcher;
@@ -32,6 +33,12 @@ public class RecyclerViewItemCountAssertion implements ViewAssertion {
 
             RecyclerView recyclerView = (RecyclerView) view;
             RecyclerView.Adapter adapter = recyclerView.getAdapter();
-            Assert.assertThat(adapter.getItemCount(), matcher);
+//            int position = recyclerView.getChildAdapterPosition(view);
+            Log.i("neighbour", "check getItemCount = " + adapter.getItemCount());
+
+//            if (position == 0)
+                Assert.assertThat(adapter.getItemCount(), matcher);
+//            else
+//                Assert.assertEquals(adapter.getItemCount(),0);
         }
     }

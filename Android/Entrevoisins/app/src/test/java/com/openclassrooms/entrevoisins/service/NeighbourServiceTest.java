@@ -18,7 +18,8 @@ import static org.junit.Assert.assertThat;
  * Unit test on Neighbour service
  */
 @RunWith(JUnit4.class)
-public class NeighbourServiceTest {
+public class
+NeighbourServiceTest {
 
     private NeighbourApiService service;
 
@@ -39,5 +40,28 @@ public class NeighbourServiceTest {
         Neighbour neighbourToDelete = service.getNeighbours().get(0);
         service.deleteNeighbour(neighbourToDelete);
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
+    }
+
+    @Test
+    public void getFavoriteNeighboursWithSuccess() {
+        List<Neighbour> neighbours = service.getFavoriteNeighbours();
+        assert(neighbours.size() == 0);
+    }
+
+    @Test
+    public void addFavoriteNeighbourWithSuccess() {
+        List<Neighbour> favoriteNeighbours = service.getFavoriteNeighbours();
+        Neighbour neighbour = service.getNeighbours().get(0);
+        service.addFavoriteNeighbour(neighbour.getId());
+        assert(favoriteNeighbours.size() == 1);
+        assert(favoriteNeighbours.contains(neighbour));
+    }
+
+    @Test
+    public void addFavoriteNeighbourWithFailure() {
+        List<Neighbour> favoriteNeighbours = service.getFavoriteNeighbours();
+        long unexistantId = service.getNeighbours().size()+2;
+        service.addFavoriteNeighbour(unexistantId);
+        assert(favoriteNeighbours.size() == 0);
     }
 }
