@@ -1,5 +1,5 @@
 # OpenClassrooms
 Mini-projets 3 réalisés pour OpenClassrooms
-1- Create a zip code an expand it on your PC
-2- Open under android studio the project
-3- Build and execute
+<p>1- Download a zip code an expand it on your PC
+<p>2- Open under android studio the project OpenClassrooms-master\Android\Entrevoisins
+<p>3- Build and execute
