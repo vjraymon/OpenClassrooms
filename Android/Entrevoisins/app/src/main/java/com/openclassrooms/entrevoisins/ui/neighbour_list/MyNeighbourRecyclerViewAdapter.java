@@ -26,9 +26,11 @@ import butterknife.ButterKnife;
 class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
 
     private final List<Neighbour> mNeighbours;
+    private int mPosition;
 
-    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
+    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items, int position) {
         mNeighbours = items;
+        mPosition = position;
     }
 
     @Override
@@ -51,7 +53,7 @@ class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRec
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
+                EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour, mPosition));
             }
         });
     }

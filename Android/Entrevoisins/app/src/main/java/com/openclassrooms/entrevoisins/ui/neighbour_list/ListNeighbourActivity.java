@@ -13,13 +13,19 @@ import android.widget.TextView;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.events.DisplayNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static java.security.AccessController.getContext;
 
 public class ListNeighbourActivity extends AppCompatActivity {
 
@@ -51,4 +57,26 @@ public class ListNeighbourActivity extends AppCompatActivity {
     void addNeighbour() {
         AddNeighbourActivity.navigate(this);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * Fired if the user clicks on a line
+     * @param event
+     */
+    @Subscribe
+    public void onDisplayNeighbour(DisplayNeighbourEvent event) {
+        Log.i("neighbour","debut onDisplayNeighbour id = " + event.neighbour.getId());
+        DisplayNeighbourActivity.navigate(this, event.neighbour);
+    }
+}

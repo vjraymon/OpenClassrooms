@@ -22,11 +22,13 @@ public interface NeighbourApiService {
      * @param neighbour
      */
     void deleteNeighbour(Neighbour neighbour);
+    void deleteFavoriteNeighbour(long id);
 
     /**
      * Create a neighbour
      * @param neighbour
      */
     void createNeighbour(Neighbour neighbour);
-    public void addFavoriteNeighbour(long id);
+    void addFavoriteNeighbour(long id);
+    boolean isFavoriteAdded(long id);
 }

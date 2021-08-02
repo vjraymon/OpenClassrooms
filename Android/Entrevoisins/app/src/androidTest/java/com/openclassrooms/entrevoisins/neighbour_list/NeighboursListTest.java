@@ -99,12 +99,6 @@ public class NeighboursListTest {
      */
     @Test
     public void myFavoriteNeighboursList_add() {
-        // When perform a click on the tab "MY NEIGHBOURS"
-        onView(allOf(ViewMatchers.withText("MY NEIGHBOURS"), ViewMatchers.isDisplayed()))
-                .perform(click());
-        // Check it remains at least one item on the tab "MY NEIGHBOURS"
-        onView(allOf(ViewMatchers.withId(R.id.list_neighbours),ViewMatchers.isDisplayed()))
-                .check(matches(hasMinimumChildCount(1)));
         // When perform a click on a line
         onView(allOf(ViewMatchers.withId(R.id.list_neighbours),ViewMatchers.isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -122,6 +116,24 @@ public class NeighboursListTest {
                 .perform(click());
         // When perform a click on the tab "FAVORITES"
         onView(allOf(ViewMatchers.withText("FAVORITES"), ViewMatchers.isDisplayed()))
+                .perform(click());
+        // Check the expected count of items
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours),ViewMatchers.isDisplayed()))
+                .check(withItemCount(FAVORITES_COUNT));
+        // When perform a click on a line
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours),ViewMatchers.isDisplayed()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        // Then : it display "CAROLINE"
+        onView(allOf(ViewMatchers.withId(R.id.displayName),ViewMatchers.isDisplayed()))
+                .check(matches(ViewMatchers.withText("Caroline")));
+        // Click on delete favorite (flip-flop)
+        onView(allOf(ViewMatchers.withId(R.id.add_favorite_neighbour),ViewMatchers.isDisplayed()))
+                .perform(click());
+        FAVORITES_COUNT--;
+        onView(allOf(ViewMatchers.withId(R.id.displayName),ViewMatchers.isDisplayed()))
+                .check(matches(ViewMatchers.withText("Caroline")));
+        // Click on the button return
+        onView(allOf(ViewMatchers.withId(R.id.return_favorite_neighbour),ViewMatchers.isDisplayed()))
                 .perform(click());
         // Check the expected count of items
         onView(allOf(ViewMatchers.withId(R.id.list_neighbours),ViewMatchers.isDisplayed()))

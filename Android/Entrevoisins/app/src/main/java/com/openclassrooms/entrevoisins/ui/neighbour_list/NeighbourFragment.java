@@ -77,23 +77,20 @@ public class NeighbourFragment extends Fragment {
         } else {
             mNeighbours = mApiService.getFavoriteNeighbours();
         }
-        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initList();
+        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, position));
     }
 
     @Override
     public void onStart() {
+        Log.i("neighbour","onStart position = " + position);
         super.onStart();
         EventBus.getDefault().register(this);
+        initList();
     }
 
     @Override
     public void onStop() {
+        Log.i("neighbour","onStop position = " + position);
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
@@ -104,17 +101,12 @@ public class NeighbourFragment extends Fragment {
      */
     @Subscribe
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
-        mApiService.deleteNeighbour(event.neighbour);
-        initList();
-    }
-
-    /**
-     * Fired if the user clicks on a line
-     * @param event
-     */
-    @Subscribe
-    public void onDisplayNeighbour(DisplayNeighbourEvent event) {
-        Log.i("neighbour","debut onDisplayNeighbour id = " + event.neighbour.getId());
-        DisplayNeighbourActivity.navigate(getContext(), event.neighbour);
+        Log.i("neighbour","onDeleteNeighbour position = " + event.position);
+        if (position == event.position) {
+            Log.i("neighbour","onDeleteNeighbour position = " + event.position);
+            if (position == 0) mApiService.deleteNeighbour(event.neighbour);
+            else mApiService.deleteFavoriteNeighbour(event.neighbour.getId());
+            initList();
+        }
     }
 }

@@ -43,6 +43,21 @@ NeighbourServiceTest {
     }
 
     @Test
+    public void createNeighbourWithSuccess() {
+        Neighbour neighbourToCreate =  new Neighbour(13, "Foo1", "https://i.pravatar.cc/150?u=a042581f4e29026704d", "Foo2",
+                "+33 1 23 45 67 89",  "Foo3");
+        service.createNeighbour(neighbourToCreate);
+        Neighbour neighbourRegistered = service.getNeighbours().get(service.getNeighbours().size()-1);
+        assert(service.getNeighbours().contains(neighbourToCreate));
+        assert(neighbourToCreate.getId() == neighbourRegistered.getId());
+        assert(neighbourToCreate.getName() == neighbourRegistered.getName());
+        assert(neighbourToCreate.getAvatarUrl() == neighbourRegistered.getAvatarUrl());
+        assert(neighbourToCreate.getAddress() == neighbourRegistered.getAddress());
+        assert(neighbourToCreate.getPhoneNumber() == neighbourRegistered.getPhoneNumber());
+        assert(neighbourToCreate.getAboutMe() == neighbourRegistered.getAboutMe());
+    }
+
+    @Test
     public void getFavoriteNeighboursWithSuccess() {
         List<Neighbour> neighbours = service.getFavoriteNeighbours();
         assert(neighbours.size() == 0);
@@ -64,4 +79,37 @@ NeighbourServiceTest {
         service.addFavoriteNeighbour(unexistantId);
         assert(favoriteNeighbours.size() == 0);
     }
+
+    @Test
+    public void deleteFavoriteNeighbourWithSuccess() {
+        List<Neighbour> favoriteNeighbours = service.getFavoriteNeighbours();
+        Neighbour neighbour = service.getNeighbours().get(0);
+        service.addFavoriteNeighbour(neighbour.getId());
+        service.deleteFavoriteNeighbour(neighbour.getId());
+        assert(favoriteNeighbours.size() == 0);
+    }
+
+    @Test
+    public void deleteFavoriteNeighbourWithFailure() {
+        List<Neighbour> favoriteNeighbours = service.getFavoriteNeighbours();
+        long unexistantId = service.getNeighbours().size()+2;
+        service.deleteFavoriteNeighbour(unexistantId);
+        assert(favoriteNeighbours.size() == 0);
+    }
+
+    @Test
+    public void isFavoriteAddedReturnTrue() {
+        List<Neighbour> favoriteNeighbours = service.getFavoriteNeighbours();
+        Neighbour neighbour = service.getNeighbours().get(0);
+        service.addFavoriteNeighbour(neighbour.getId());
+        assert(service.isFavoriteAdded(neighbour.getId()));
+    }
+
+    @Test
+    public void isFavoriteAddedReturnFalse() {
+        List<Neighbour> favoriteNeighbours = service.getFavoriteNeighbours();
+        Neighbour neighbour = service.getNeighbours().get(0);
+        assert(!service.isFavoriteAdded(neighbour.getId()));
+    }
+
 }
